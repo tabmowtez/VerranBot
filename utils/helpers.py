@@ -2,12 +2,12 @@ import json
 from typing import Union, List, Dict
 
 
-async def find_json_nodes(json_response: Union[str, Dict], key: str, search_value: str) -> List[Dict]:
+async def find_json_nodes(json_response: Union[str, Dict, list], key: str, search_value: str) -> List[Dict]:
     """
     Search for nodes in a JSON response where the specified key contains a specific substring and return those nodes
 
     Args:
-        json_response (str or dict): The JSON response to parse.
+        json_response (list): The JSON response to parse.
         key (str): The key to search for.
         search_value (str): The substring to search for in the specified key's value.
 
@@ -43,6 +43,15 @@ async def find_json_nodes(json_response: Union[str, Dict], key: str, search_valu
 
 
 async def get_formatted_item(item: [Dict]):
+    """
+    Will format a json object into a pleasing format for Discord
+
+    Args:
+        item (str or dict): The JSON string to format
+
+    Returns:
+        list: A formatted string.
+    """
     # Create a formatted string for each item
     formatted_message = []
 

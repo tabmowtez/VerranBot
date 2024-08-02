@@ -25,7 +25,7 @@ class MyCog(commands.Cog):
             await ctx.reply('I need a name of the armor to search for!')
             return
         try:
-            data = self.api_client.get_data()
+            data = self.api_client.get_data('armors')
             logger.debug('Data is: %s', data)
             search_results = await find_json_nodes(data, 'name', args)
             logger.debug('Result is: %s', search_results)

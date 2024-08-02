@@ -1,0 +1,119 @@
+[MASTER]
+# A comma-separated list of package or module names from where C extensions
+# may be loaded. Extensions are loaded from the standard python library by default.
+extension-pkg-whitelist=
+
+# List of plugins (as comma separated values of python modules names) to load,
+# usually to register additional checkers.
+load-plugins=
+
+[MESSAGES CONTROL]
+# Only show warnings with the listed confidence levels. Leave empty to show
+# all. Valid levels: HIGH, INFERENCE, INFERENCE_FAILURE, UNDEFINED
+confidence=
+
+# Enable the message, report, category or checker with the given id(s).
+enable=all
+
+# Disable the message, report, category or checker with the given id(s).
+disable=
+    C0114,  # Missing module docstring
+    C0115,	#	Missing class docstring
+    C0116,  # Missing function or method docstring
+    R0903,  # Too few public methods
+
+[REPORTS]
+# Set the output format. Available formats are text, parseable, colorized, json and msvs (visual studio).
+output-format=text
+
+# Tells whether to display a full report or only the messages
+reports=yes
+
+[BASIC]
+# Variable names that should be ignored, separated by a comma.
+good-names=i,j,k,ex,Run,_
+
+# Argument names that should be ignored, separated by a comma.
+dummy-variables-rgx=_|dummy
+
+# Naming style matching correct argument names
+argument-naming-style=snake_case
+
+# Naming style matching correct variable names
+variable-naming-style=snake_case
+
+# Naming style matching correct constant names
+const-naming-style=UPPER_CASE
+
+# Naming style matching correct class names
+class-naming-style=PascalCase
+
+# Naming style matching correct function names
+function-naming-style=snake_case
+
+# Regular expression matching correct module names
+module-rgx=[a-z_][a-z0-9_]*$
+
+# Regular expression matching correct method names
+method-rgx=[a-z_][a-z0-9_]*$
+
+# Regular expression matching correct function names
+function-rgx=[a-z_][a-z0-9_]*$
+
+[FORMAT]
+# Maximum number of characters on a single line.
+max-line-length=100
+
+# Maximum number of lines in a module
+max-module-lines=1000
+
+# String used as indentation unit. This is usually "    " (4 spaces) or "\t" (1 tab).
+indent-string='    '
+
+[DESIGN]
+# Maximum number of arguments for function / method
+max-args=5
+
+# Maximum number of attributes for a class (see R0902).
+max-attributes=10
+
+# Maximum number of boolean expressions in a if statement
+max-bool-expr=5
+
+# Maximum number of branch for function / method body
+max-branches=12
+
+# Maximum number of public methods for a class (see R0904).
+max-public-methods=20
+
+# Maximum number of return / yield for function / method body
+max-returns=6
+
+# Maximum number of statements in function / method body
+max-statements=50
+
+[LOGGING]
+# Logging modules to check that the string format arguments are in logging function parameter format
+logging-modules=logging
+
+[IMPORTS]
+# Allow wildcard imports from modules that define __all__
+allow-wildcard-with-all=no
+
+# Analyse import fallback blocks. This can be used to support both python 2 and 3 compatible code, which means that the block will be analyzed for both python 2 and 3 compatibility independently.
+analyse-fallback-blocks=no
+
+[MISCELLANEOUS]
+# List of note tags to take in consideration, separated by a comma.
+notes=FIXME,XXX,TODO
+
+[TYPECHECK]
+# Tells whether to warn about missing members when checking module imports.
+ignored-modules=
+
+# Tells whether to warn about missing members when checking module imports.
+ignored-classes=
+
+[SIMILARITIES]
+# Minimum lines number of a similarity.
+min-similarity-lines=4

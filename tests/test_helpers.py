@@ -7,8 +7,10 @@ def create_sample_json():
     """Create a sample JSON structure for testing."""
     return {
         "items": [
-            {"name": "Sword", "cost": "100", "is_cosmetic": "No", "obtain": "Shop", "primary_attribute": "Strength", "rarity": "Rare", "slot": "Hand", "wiki_link": "http://example.com/sword"},
-            {"name": "Shield", "cost": "150", "is_cosmetic": "Yes", "obtain": "Dungeon", "primary_attribute": "Defense", "rarity": "Uncommon", "slot": "Arm", "wiki_link": "http://example.com/shield"}
+            {"name": "Sword", "cost": "100", "is_cosmetic": "No", "obtain": "Shop", "primary_attribute": "Strength",
+             "rarity": "Rare", "slot": "Hand", "wiki_link": "https://example.com/sword"},
+            {"name": "Shield", "cost": "150", "is_cosmetic": "Yes", "obtain": "Dungeon", "primary_attribute": "Defense",
+             "rarity": "Uncommon", "slot": "Arm", "wiki_link": "https://example.com/shield"}
         ]
     }
 
@@ -40,7 +42,7 @@ class TestHelperFunctions:
         search_value = "Helmet"
         key = "name"
         result = await find_json_nodes(json_response, key, search_value)
-        assert len(result) == 0
+        assert not len(result)
 
     @pytest.mark.asyncio
     async def test_get_formatted_item(self):
