@@ -1,8 +1,9 @@
-import requests
 import logging
+import requests
 from discord.ext import commands
+
 from api.api_client import ApiClient
-from utils.helpers import find_json_nodes, send_formatted_items
+from utils.helpers import find_json_nodes, get_formatted_items
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -16,16 +17,16 @@ class MyCog(commands.Cog):
 
     @commands.command(name='armor')
     async def get_data(self, ctx, *, args=None):
+        logger.debug('In armor command')
         if args is None:
             await ctx.send('I need a name of the armor to search for!')
             return
-        logger.debug('In armor command')
         try:
             data = self.api_client.get_data()
             logger.debug('Data is: %s', data)
-            result = await find_json_nodes(data, 'name', args)
-            logger.debug('Result is: %s', result)
-            await send_formatted_items(ctx, result)
+            search_results = await find_json_nodes(data, 'name', args)
+            logger.debug('Result is: %s', search_results)
+            await ctx.send(await get_formatted_items(search_results))
         except requests.RequestException as e:
             await ctx.send(f'Failed to get data: {e}')
 
@@ -41,8 +42,9 @@ class MyCog(commands.Cog):
                 guild_owner = guild.owner
                 if guild_owner:
                     await ctx.send(
-                        f'The owner of this server is '
-                        f'{guild_owner.name}{f"#{guild_owner.discriminator}" if guild_owner.discriminator != "0" else ""}')
+                        f'The owner of this server is {guild_owner.name}{
+                            f"#{guild_owner.discriminator}" if guild_owner.discriminator != "0" else ""}'
+                    )
                 else:
                     await ctx.send('Could not retrieve the owner information. The owner attribute is None.')
             else:

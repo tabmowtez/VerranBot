@@ -42,7 +42,7 @@ async def find_json_nodes(json_response: Union[str, Dict], key: str, search_valu
     return nodes
 
 
-async def send_formatted_items(ctx, items: List[Dict]):
+async def get_formatted_items(items: List[Dict]):
     for item in items:
         # Create a formatted string for each item
         formatted_message = []
@@ -62,9 +62,8 @@ async def send_formatted_items(ctx, items: List[Dict]):
         if item.get('slot'):
             formatted_message.append(f"**Slot:** {item.get('slot')}")
         if item.get('wiki_link'):
-            formatted_message.append(f"**Wiki Link:** {item.get('wiki_link')}")
+            formatted_message.append(f"**Wiki Link:** <{item.get('wiki_link')}>")
 
         # Join the formatted message parts and send if not empty
         if formatted_message:
-            response = ('\n'.join(formatted_message))
-            await ctx.send(f'```{response}```')
+            return '\n'.join(formatted_message)
