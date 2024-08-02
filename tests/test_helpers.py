@@ -42,7 +42,7 @@ class TestHelperFunctions:
         search_value = "Helmet"
         key = "name"
         result = await find_json_nodes(json_response, key, search_value)
-        assert not len(result)
+        assert not result
 
     @pytest.mark.asyncio
     async def test_get_formatted_item(self):

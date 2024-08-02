@@ -6,12 +6,12 @@ from discord.ext import commands
 from config.settings import TOKEN, setup_logging
 
 # Create an instance of discord.Intents and set the required intents
-intents = discord.Intents.default()  # This will enable the default intents
+intents = discord.Intents.default()
 
 # If you need additional intents, enable them as follows:
-intents.message_content = True  # Enable message content intent if your bot needs to read message content
-intents.messages = True  # Ensure the bot has the messages intent enabled
-intents.members = True  # Ensure the members intent is enabled
+intents.message_content = True
+intents.messages = True
+intents.members = True
 
 # Create an instance of commands.Bot with the specified intents
 bot = commands.Bot(command_prefix='!', intents=intents)
@@ -24,7 +24,7 @@ class MyBot(commands.Bot):
         super().__init__(*args, **kwargs)
 
     async def on_ready(self):
-        logging.info(f'Logged in as {self.user.name}')
+        logging.info('Logged in as %s', self.user.name)
         logging.info('Bot is ready')
 
 
@@ -35,7 +35,11 @@ async def load_cogs(my_bot):
             try:
                 await my_bot.load_extension(f'cogs.{cog}')
                 logging.info('Loaded cog: %s', cog)
-            except Exception as e:
+            except discord.ext.commands.ExtensionAlreadyLoaded:
+                logging.warning('Cog %s is already loaded.', cog)
+            except discord.ext.commands.ExtensionNotFound:
+                logging.error('Cog %s not found.', cog)
+            except discord.ext.commands.ExtensionFailed as e:
                 logging.error('Failed to load cog %s: %s', cog, e)
 
 
