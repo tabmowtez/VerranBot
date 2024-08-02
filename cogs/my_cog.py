@@ -3,7 +3,7 @@ import requests
 from discord.ext import commands
 
 from api.api_client import ApiClient
-from utils.helpers import find_json_nodes, get_formatted_items
+from utils.helpers import find_json_nodes, get_formatted_item
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -17,18 +17,23 @@ class MyCog(commands.Cog):
 
     @commands.command(name='armor')
     async def get_data(self, ctx, *, args=None):
-        logger.debug('In armor command')
+        # Get the username of the user who sent the command
+        user_name = ctx.author.name
+        logger.debug('armor command requested by: %s', user_name)
+
         if args is None:
-            await ctx.send('I need a name of the armor to search for!')
+            await ctx.reply('I need a name of the armor to search for!')
             return
         try:
             data = self.api_client.get_data()
             logger.debug('Data is: %s', data)
             search_results = await find_json_nodes(data, 'name', args)
             logger.debug('Result is: %s', search_results)
-            await ctx.send(await get_formatted_items(search_results))
+            await ctx.reply(f'There are {len(search_results)} results')
+            for item in search_results:
+                await ctx.reply(await get_formatted_item(item))
         except requests.RequestException as e:
-            await ctx.send(f'Failed to get data: {e}')
+            await ctx.reply(f'Failed to get data: {e}')
 
     @commands.command(name='owner')
     async def owner(self, ctx):

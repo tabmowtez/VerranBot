@@ -42,28 +42,27 @@ async def find_json_nodes(json_response: Union[str, Dict], key: str, search_valu
     return nodes
 
 
-async def get_formatted_items(items: List[Dict]):
-    for item in items:
-        # Create a formatted string for each item
-        formatted_message = []
+async def get_formatted_item(item: [Dict]):
+    # Create a formatted string for each item
+    formatted_message = []
 
-        if item.get('name'):
-            formatted_message.append(f"**Name:** {item.get('name')}")
-        if item.get('cost'):
-            formatted_message.append(f"**Cost:** {item.get('cost')}")
-        if item.get('is_cosmetic'):
-            formatted_message.append(f"**Cosmetic:** {item.get('is_cosmetic')}")
-        if item.get('obtain'):
-            formatted_message.append(f"**Obtain:** {item.get('obtain')}")
-        if item.get('primary_attribute'):
-            formatted_message.append(f"**Primary Attribute:** {item.get('primary_attribute')}")
-        if item.get('rarity'):
-            formatted_message.append(f"**Rarity:** {item.get('rarity')}")
-        if item.get('slot'):
-            formatted_message.append(f"**Slot:** {item.get('slot')}")
-        if item.get('wiki_link'):
-            formatted_message.append(f"**Wiki Link:** <{item.get('wiki_link')}>")
+    if item.get('name'):
+        formatted_message.append(f"**Name:** {item.get('name')}")
+    if item.get('cost'):
+        formatted_message.append(f"**Cost:** {item.get('cost')}")
+    if item.get('is_cosmetic'):
+        formatted_message.append(f"**Cosmetic:** {item.get('is_cosmetic')}")
+    if item.get('obtain'):
+        formatted_message.append(f"**Obtain:** {item.get('obtain')}")
+    if item.get('primary_attribute'):
+        formatted_message.append(f"**Primary Attribute:** {item.get('primary_attribute')}")
+    if item.get('rarity'):
+        formatted_message.append(f"**Rarity:** {item.get('rarity')}")
+    if item.get('slot'):
+        formatted_message.append(f"**Slot:** {item.get('slot')}")
+    if item.get('wiki_link'):
+        formatted_message.append(f"**Wiki Link:** <{item.get('wiki_link')}>")
 
-        # Join the formatted message parts and send if not empty
-        if formatted_message:
-            return '\n'.join(formatted_message)
+    # Join the formatted message parts and send if not empty
+    if formatted_message:
+        return '\n'.join(formatted_message)
