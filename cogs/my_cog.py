@@ -47,9 +47,10 @@ class MyCog(commands.Cog):
                 guild_owner = guild.owner
                 if guild_owner:
                     await ctx.send(
-                        f'The owner of this server is {guild_owner.name}{
-                            f"#{guild_owner.discriminator}" if guild_owner.discriminator != "0" else ""}'
+                        f'The owner of this server is {guild_owner.name}'
+                        f'#{guild_owner.discriminator}' if guild_owner.discriminator != "0" else ''
                     )
+
                 else:
                     await ctx.send('Could not retrieve the owner information. The owner attribute is None.')
             else:
