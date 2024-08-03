@@ -25,7 +25,7 @@ async def find_json_nodes(json_response: Union[str, Dict, list], key: str, searc
     def traverse(node):
         if isinstance(node, dict):
             # Check if the specified key exists and if its value contains the search_value
-            if key in node and isinstance(node[key], str) and search_value in node[key]:
+            if key in node and isinstance(node[key], str) and search_value.lower() in node[key].lower():
                 nodes.append(node)
             # Continue traversing child nodes
             for child in node.values():
