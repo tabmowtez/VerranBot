@@ -25,7 +25,7 @@ class TestHelperFunctions:
         key = "name"
         result = await find_json_nodes(json_response, key, search_value)
         assert len(result) == 1
-        assert result[0]['name'] == "Sword"
+        assert result[0]["name"] == "Sword"
 
     @pytest.mark.asyncio
     async def test_find_json_nodes_with_string_input(self):
@@ -34,7 +34,7 @@ class TestHelperFunctions:
         key = "name"
         result = await find_json_nodes(json_response, key, search_value)
         assert len(result) == 1
-        assert result[0]['name'] == "Shield"
+        assert result[0]["name"] == "Shield"
 
     @pytest.mark.asyncio
     async def test_find_json_nodes_no_match(self):
@@ -46,12 +46,13 @@ class TestHelperFunctions:
 
     @pytest.mark.asyncio
     async def test_get_formatted_item(self):
-        item = {"name": "Sword", "cost": "100", "is_cosmetic": "No", "obtain": "Shop", "primary_attribute": "Strength",
-                "rarity": "Rare", "slot": "Hand", "wiki_link": "https://example.com/sword"}
+        item = {"id": 1, "name": "Sword", "cost": "100", "is_cosmetic": "No", "obtain": "Shop",
+                "primary_attribute": "Strength", "rarity": "Rare", "slot": "Hand",
+                "wiki_link": "https://example.com/sword"}
         expected_message = (
             "**Name:** Sword\n"
             "**Cost:** 100\n"
-            "**Cosmetic:** No\n"
+            "**Is Cosmetic:** No\n"
             "**Obtain:** Shop\n"
             "**Primary Attribute:** Strength\n"
             "**Rarity:** Rare\n"

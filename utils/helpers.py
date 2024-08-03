@@ -42,36 +42,28 @@ async def find_json_nodes(json_response: Union[str, Dict, list], key: str, searc
     return nodes
 
 
-async def get_formatted_item(item: [Dict]):
+async def get_formatted_item(item: Dict):
     """
-    Will format a json object into a pleasing format for Discord
+    Will format a JSON object into a pleasing format for Discord.
 
     Args:
-        item (str or dict): The JSON string to format
+        item (dict): The JSON object to format.
 
     Returns:
-        list: A formatted string.
+        str: A formatted string.
     """
-    # Create a formatted string for each item
     formatted_message = []
 
-    if item.get('name'):
-        formatted_message.append(f"**Name:** {item.get('name')}")
-    if item.get('cost'):
-        formatted_message.append(f"**Cost:** {item.get('cost')}")
-    if item.get('is_cosmetic'):
-        formatted_message.append(f"**Cosmetic:** {item.get('is_cosmetic')}")
-    if item.get('obtain'):
-        formatted_message.append(f"**Obtain:** {item.get('obtain')}")
-    if item.get('primary_attribute'):
-        formatted_message.append(f"**Primary Attribute:** {item.get('primary_attribute')}")
-    if item.get('rarity'):
-        formatted_message.append(f"**Rarity:** {item.get('rarity')}")
-    if item.get('slot'):
-        formatted_message.append(f"**Slot:** {item.get('slot')}")
-    if item.get('wiki_link'):
-        formatted_message.append(f"**Wiki Link:** <{item.get('wiki_link')}>")
+    for key, value in item.items():
+        if value:  # Check if the value is not None or empty
+            if key == "id":
+                continue
+            formatted_key = " ".join(word.capitalize() for word in key.split("_"))
+            if key == "wiki_link":
+                formatted_message.append(f"**{formatted_key}:** <{value}>")
+            else:
+                formatted_message.append(f"**{formatted_key}:** {value}")
 
-    # Join the formatted message parts and send if not empty
     if formatted_message:
-        return '\n'.join(formatted_message)
+        return "\n".join(formatted_message)
+    return ""

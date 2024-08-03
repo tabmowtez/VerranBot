@@ -5,18 +5,9 @@ import discord
 from discord.ext import commands
 from config.settings import TOKEN, setup_logging
 
-# Create an instance of discord.Intents and set the required intents
-intents = discord.Intents.default()
-
-# If you need additional intents, enable them as follows:
-intents.message_content = True
-intents.messages = True
-intents.members = True
-
-# Create an instance of commands.Bot with the specified intents
-bot = commands.Bot(command_prefix='!', intents=intents)
 # Set up logging
 setup_logging()
+logger = logging.getLogger(__name__)
 
 
 class MyBot(commands.Bot):
@@ -24,23 +15,23 @@ class MyBot(commands.Bot):
         super().__init__(*args, **kwargs)
 
     async def on_ready(self):
-        logging.info('Logged in as %s', self.user.name)
-        logging.info('Bot is ready')
+        logger.info("Logged in as %s", self.user.name)
+        logger.info("Bot is ready")
 
 
 async def load_cogs(my_bot):
-    for filename in os.listdir('./cogs'):
-        if filename.endswith('.py'):
+    for filename in os.listdir("./cogs"):
+        if filename.endswith(".py"):
             cog = filename[:-3]
             try:
-                await my_bot.load_extension(f'cogs.{cog}')
-                logging.info('Loaded cog: %s', cog)
+                await my_bot.load_extension(f"cogs.{cog}")
+                logger.info("Loaded cog: %s", cog)
             except discord.ext.commands.ExtensionAlreadyLoaded:
-                logging.warning('Cog %s is already loaded.', cog)
+                logger.warning("Cog %s is already loaded.", cog)
             except discord.ext.commands.ExtensionNotFound:
-                logging.error('Cog %s not found.', cog)
+                logger.error("Cog %s not found.", cog)
             except discord.ext.commands.ExtensionFailed as e:
-                logging.error('Failed to load cog %s: %s', cog, e)
+                logger.error("Failed to load cog %s: %s", cog, e)
 
 
 async def main():
@@ -49,7 +40,7 @@ async def main():
     my_intents.message_content = True  # Required for reading message content
     my_intents.members = True  # Ensure the members intent is enabled
 
-    my_bot = MyBot(command_prefix='!', intents=my_intents)
+    my_bot = MyBot(command_prefix="!", intents=my_intents)
 
     # Load all cogs
     await load_cogs(my_bot)
@@ -58,5 +49,5 @@ async def main():
     await my_bot.start(TOKEN)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     asyncio.run(main())
