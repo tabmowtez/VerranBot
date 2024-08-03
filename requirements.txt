@@ -3,5 +3,4 @@ requests
 python-dotenv
 pytest
 pytest-asyncio
-logging
 pylint

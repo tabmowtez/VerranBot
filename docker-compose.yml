@@ -1,0 +1,10 @@
+services:
+  verranbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: verranbot
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
