@@ -9,7 +9,7 @@ from utils.helpers import find_json_nodes, get_formatted_item
 logger = logging.getLogger(__name__)
 
 
-class MyCog(commands.Cog):
+class VerranCodex(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.api_client = ApiClient()
@@ -100,7 +100,6 @@ class MyCog(commands.Cog):
                         f"The owner of this server is {guild_owner.name}"
                         f"#{guild_owner.discriminator}" if guild_owner.discriminator != "0" else ""
                     )
-
                 else:
                     await ctx.send("Could not retrieve the owner information. The owner attribute is None.")
             else:
@@ -111,7 +110,7 @@ class MyCog(commands.Cog):
 
     async def search_for_item(self, ctx, item_type, args):
         user_name = ctx.author.name
-        logger.debug(f"{item_type.capitalize()} command requested by: %s", user_name)
+        logger.debug("%s command requested by: %s", item_type, user_name)
 
         if args is None:
             await ctx.reply(f"I need a name of the {item_type} to search for!")
@@ -131,5 +130,5 @@ class MyCog(commands.Cog):
 
 async def setup(bot):
     logger.debug("Setting up %s.", __name__)
-    await bot.add_cog(MyCog(bot))
+    await bot.add_cog(VerranCodex(bot))
     logger.debug("%s has been added to the bot.", __name__)
