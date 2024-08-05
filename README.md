@@ -7,11 +7,12 @@ This bot allows discord users to retrieve results from the Verran Codex API (htt
 
 ## How to run
 The easiest way is checkout the source code from GitHub (https://github.com/tabmowtez/VerranBot).
-You will need 4 main environment variables (.env files supported):
+You will need 5 main environment variables (.env files supported):
 - DISCORD_TOKEN - Taken from Discord Developer Portal
 - VERRAN_CODEX_API_KEY - Generated from https://verrancodex.com/ 
 - LOG_LEVEL - Defaults to INFO - set to DEBUG if you are encountering issues
 - CACHE_DURATION - Defaults to 60 (minutes), the amount of time the Verran Codex API calls are cached
+- MAX_RESULTS - Defaults to 3, the amount of results to reply with. Due to rate limiting, I would make this a max of 10
 
 Then you can either:
 - Run directly via Python

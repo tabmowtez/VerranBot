@@ -4,6 +4,7 @@ from discord.ext import commands
 
 from api.api_client import ApiClient
 from utils.helpers import find_json_nodes, get_formatted_item
+from config.settings import MAX_RESULTS
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -87,17 +88,29 @@ class VerranCodex(commands.Cog):
         user_name = ctx.author.name
         logger.debug("%s command requested by: %s", item_type, user_name)
 
-        if args is None:
+        if not args:
             await ctx.reply(f"I need a name of the {item_type} to search for!")
             return
 
         try:
-            data = await self.api_client.fetch_data_with_cache(item_type)
-            logger.debug("Data is: %s", data)
-            search_results = await find_json_nodes(data, "name", args)
-            logger.debug("Result is: %s", search_results)
-            await ctx.reply(f"There are {len(search_results)} results")
-            for item in search_results:
+            # Show typing indicator
+            async with ctx.typing():
+                data = await self.api_client.fetch_data_with_cache(item_type)
+                logger.debug("Data is: %s", data)
+                search_results = await find_json_nodes(data, "name", args)
+                logger.debug("Result is: %s", search_results)
+
+            # Send final message with the number of results (up to MAX_RESULTS)
+            limited_results = search_results[:int(MAX_RESULTS)]
+            if not search_results:
+                await ctx.reply("There are no results.")
+            else:
+                await ctx.reply(
+                    f"There are {len(search_results)} results, showing the first {len(limited_results)} below..."
+                )
+
+            # Reply with the actual data (up to 5 items)
+            for item in limited_results:
                 await ctx.reply(await get_formatted_item(item))
         except requests.RequestException as e:
             await ctx.reply(f"Failed to get data: {e}")
