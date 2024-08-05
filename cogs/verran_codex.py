@@ -83,31 +83,6 @@ class VerranCodex(commands.Cog):
     async def weapons(self, ctx, *, args=None):
         await self.search_for_item(ctx, "weapons", args)
 
-    @commands.command(name="owner")
-    async def owner(self, ctx):
-        # Get the username of the user who sent the command
-        user_name = ctx.author.name
-        logger.debug("Owner command requested by: %s", user_name)
-        try:
-            # Get the guild (server) from the context
-            guild = ctx.guild
-
-            if guild:
-                # Access the owner attribute
-                guild_owner = guild.owner
-                if guild_owner:
-                    await ctx.send(
-                        f"The owner of this server is {guild_owner.name}"
-                        f"#{guild_owner.discriminator}" if guild_owner.discriminator != "0" else ""
-                    )
-                else:
-                    await ctx.send("Could not retrieve the owner information. The owner attribute is None.")
-            else:
-                await ctx.send("This command can only be used in a server.")
-        except Exception as e:
-            await ctx.send(f"An error occurred: {e}")
-            raise e
-
     async def search_for_item(self, ctx, item_type, args):
         user_name = ctx.author.name
         logger.debug("%s command requested by: %s", item_type, user_name)
