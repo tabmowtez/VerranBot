@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 API_KEY = os.getenv("VERRAN_CODEX_API_KEY")
-CACHE_DURATION = os.getenv("CACHE_DURATION", 60)
+CACHE_DURATION = os.getenv("CACHE_DURATION", "60")
 
 # Set up logging
 # Get the logging level from the environment variable
