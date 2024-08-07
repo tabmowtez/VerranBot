@@ -1,9 +1,9 @@
 services:
   verranbot:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: tabmowtez/verranbot
+    restart: unless-stopped
     container_name: verranbot
+    env_file: .env
     deploy:
       resources:
         limits:
