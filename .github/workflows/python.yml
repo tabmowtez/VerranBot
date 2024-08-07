@@ -1,4 +1,4 @@
-name: Lint, Test
+name: Lint, Flake & Test
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build:
-
+    name: Lint, Flake & Test
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -46,3 +46,31 @@ jobs:
       - name: Analysing the code with pylint
         run: |
           pylint $(git ls-files '*.py')
+
+  docker:
+    name: Docker Build & Push
+    env:
+      DOCKER_HUB_USERNAME: tabmowtez
+      DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+      IMAGE_NAME: verranbot
+
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'  # This condition ensures the job runs only for the develop branch
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKER_HUB_USERNAME }}
+          password: ${{ env.DOCKER_HUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest .
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
