@@ -49,13 +49,13 @@ jobs:
 
   docker:
     name: Docker Build & Push
+    if: github.ref == 'refs/heads/develop'
+    needs: build
     env:
       DOCKER_HUB_USERNAME: tabmowtez
       DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
       IMAGE_NAME: verranbot
-
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'  # This condition ensures the job runs only for the develop branch
 
     steps:
       - name: Checkout code
