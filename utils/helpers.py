@@ -62,17 +62,17 @@ async def get_formatted_item(item: Dict) -> str:
                 prefix = "> " if level > 0 else ""
                 if isinstance(value, dict):
                     # Check if all values in the dictionary are zero
-                    if all(v == 0 for v in value.values()):
+                    if all(not v for v in value.values()):
                         continue
                     formatted_message.append(f"{prefix}**{formatted_key}:**")
                     format_item(value, level + 1)
                 elif isinstance(value, list):
                     formatted_message.append(f"{prefix}**{formatted_key}:**")
-                    for sub_item in value:
-                        if isinstance(sub_item, dict):
-                            format_item(sub_item, level + 1)
+                    for rec_sub_item in value:
+                        if isinstance(rec_sub_item, dict):
+                            format_item(rec_sub_item, level + 1)
                         else:
-                            formatted_message.append(f"{prefix} - {sub_item}")
+                            formatted_message.append(f"{prefix} - {rec_sub_item}")
                 elif key == "wiki_link":
                     formatted_message.append(f"{prefix}**{formatted_key}:** <{value}>")
                 else:
