@@ -52,7 +52,7 @@ jobs:
     if: github.ref == 'refs/heads/develop'
     needs: build
     env:
-      DOCKER_HUB_USERNAME: tabmowtez
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
       DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
       IMAGE_NAME: verranbot
     runs-on: ubuntu-latest

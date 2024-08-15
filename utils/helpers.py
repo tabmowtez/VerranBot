@@ -41,10 +41,9 @@ async def find_json_nodes(json_response: Union[str, Dict, list], key: str, searc
     # Return the list of nodes
     return nodes
 
-
-async def get_formatted_item(item: Dict):
+async def get_formatted_item(item: Dict) -> str:
     """
-    Will format a JSON object into a pleasing format for Discord.
+    Will format a JSON object into a pleasing format for Discord, including nested objects.
 
     Args:
         item (dict): The JSON object to format.
@@ -54,15 +53,32 @@ async def get_formatted_item(item: Dict):
     """
     formatted_message = []
 
-    for key, value in item.items():
-        if value:  # Check if the value is not None or empty
-            if key == "id":
-                continue
-            formatted_key = " ".join(word.capitalize() for word in key.split("_"))
-            if key == "wiki_link":
-                formatted_message.append(f"**{formatted_key}:** <{value}>")
-            else:
-                formatted_message.append(f"**{formatted_key}:** {value}")
+    def format_item(sub_item: Dict, level=0):
+        for key, value in sub_item.items():
+            if value:  # Check if the value is not None or empty
+                if key == "id":
+                    continue
+                formatted_key = " ".join(word.capitalize() for word in key.split("_"))
+                prefix = "> " if level > 0 else ""
+                if isinstance(value, dict):
+                    # Check if all values in the dictionary are zero
+                    if all(v == 0 for v in value.values()):
+                        continue
+                    formatted_message.append(f"{prefix}**{formatted_key}:**")
+                    format_item(value, level + 1)
+                elif isinstance(value, list):
+                    formatted_message.append(f"{prefix}**{formatted_key}:**")
+                    for sub_item in value:
+                        if isinstance(sub_item, dict):
+                            format_item(sub_item, level + 1)
+                        else:
+                            formatted_message.append(f"{prefix} - {sub_item}")
+                elif key == "wiki_link":
+                    formatted_message.append(f"{prefix}**{formatted_key}:** <{value}>")
+                else:
+                    formatted_message.append(f"{prefix}**{formatted_key}:** {value}")
+
+    format_item(item)
 
     if formatted_message:
         return "\n".join(formatted_message)
